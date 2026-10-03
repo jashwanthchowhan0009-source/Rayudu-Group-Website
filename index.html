@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rayudu Group — Enterprise Ecosystem</title>
+<meta name="description" content="Rayudu Group is a multi-sector enterprise ecosystem spanning business intelligence, logistics, technology, energy, media and consumer wellness. Built for everyday life. Inspired by tomorrow.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="Rayudu Group — Enterprise Ecosystem">
+<meta property="og:description" content="Built for everyday life. Inspired by tomorrow.">
+<meta property="og:image" content="assets/poster.webp">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="assets/poster.webp">
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="assets/vendor/model-viewer-4.3.1.min.js"></script>
+</head>
+<body>
+<div class="loader" id="loader" aria-hidden="true"><span class="loader__bar" id="loaderBar"></span></div>
+
+<main class="stage" id="stage">
+
+  <svg class="rings" id="rings" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+    <g class="rings__base" fill="none" vector-effect="non-scaling-stroke">
+      <circle cx="500" cy="500" r="196"></circle>
+      <circle cx="500" cy="500" r="300"></circle>
+      <circle cx="500" cy="500" r="408" class="rings__outer"></circle>
+    </g>
+    <g class="rings__arcs" id="ringArcs" fill="none"></g>
+  </svg>
+
+  <model-viewer
+    id="viewer"
+    src="assets/eagle.glb"
+    alt="A sculpted eagle with raised wings, representing the Rayudu Group ecosystem. Seven nodes on the sculpture open the group's business sectors."
+    ar
+    ar-modes="webxr scene-viewer quick-look"
+    camera-controls
+    touch-action="none"
+    tone-mapping="neutral"
+    poster="assets/poster.webp"
+    shadow-intensity="2"
+    exposure="0.49"
+    shadow-softness="1"
+    environment-image="assets/studio.hdr"
+    interaction-prompt="none"
+    interpolation-decay="200"
+    min-field-of-view="22deg"
+    max-field-of-view="40deg"
+    min-camera-orbit="auto 24deg 62%"
+    max-camera-orbit="auto 96deg 150%"
+    camera-orbit="0deg 76deg 100%"
+    disable-tap>
+    <button class="ar-btn" slot="ar-button">View in space</button>
+    <div class="mv-error" slot="error">The 3D model could not be loaded.</div>
+  </model-viewer>
+
+  <!-- HUD ------------------------------------------------------------- -->
+  <header class="hud hud--tl">
+    <p class="wordmark">Rayudu Group</p>
+    <p class="hud__sub">Enterprise Ecosystem</p>
+  </header>
+
+  <div class="hud hud--tr">
+    <button class="link" id="directoryBtn" aria-expanded="false" aria-controls="directory">Directory</button>
+  </div>
+
+  <aside class="directory" id="directory" hidden>
+    <p class="directory__eyebrow">Ecosystem</p>
+    <ul class="directory__list" id="directoryList"></ul>
+    <div class="directory__meta">
+      <p class="directory__eyebrow">Contact</p>
+      <p><a href="mailto:hello@rayudugroup.in">hello@rayudugroup.in</a></p>
+      <p><a href="tel:+919985722289">+91 99857 22289</a></p>
+    </div>
+    <div class="directory__meta">
+      <p class="directory__eyebrow">Locations</p>
+      <p>Anantapur, Andhra Pradesh — India</p>
+      <p>Sheridan, Wyoming — USA</p>
+    </div>
+  </aside>
+
+  <footer class="hud hud--bl">
+    <p class="tagline">Built for everyday life.<br>Inspired by tomorrow.</p>
+  </footer>
+
+  <div class="hud hud--br">
+    <p class="hint" id="hint">Select node to explore</p>
+    <button class="link link--reset" id="resetBtn" hidden>Reset view</button>
+  </div>
+
+  <!-- SECTOR PANEL ------------------------------------------------------ -->
+  <section class="panel" id="panel" aria-live="polite" hidden>
+    <button class="panel__close" id="panelClose" aria-label="Reset view"><span class="panel__close-x" aria-hidden="true">&times;</span><span class="panel__close-text">Reset view</span></button>
+    <p class="panel__name" id="panelName"></p>
+    <p class="panel__sector" id="panelSector"></p>
+    <p class="panel__body" id="panelBody"></p>
+    <ul class="panel__detail" id="panelDetail" hidden></ul>
+    <button class="panel__cta" id="panelCta" aria-expanded="false" aria-controls="panelDetail">[ Explore ]</button>
+  </section>
+
+</main>
+
+<script type="module" src="src/app.js"></script>
+</body>
+</html>
