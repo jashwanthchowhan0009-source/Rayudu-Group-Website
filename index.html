@@ -20,7 +20,7 @@
 
 <!-- ── loading reveal ──────────────────────────────────────────────── -->
 <div class="boot" id="boot">
-  <p class="boot__mark">Rayudu<sup>®</sup>Group</p>
+  <p class="boot__mark">Rayudu Group</p>
   <div class="boot__line"><span id="bootBar"></span></div>
 </div>
 
@@ -29,12 +29,18 @@
 
   <div class="atmos" id="atmos">
     <div class="atmos__wash"></div>
-    <div class="atmos__streaks" id="streaks">
-      <i style="--a:-24deg;--x:12%;--y:20%;--l:34vh;--d:0s"></i>
-      <i style="--a:-24deg;--x:80%;--y:64%;--l:26vh;--d:-7s"></i>
-      <i style="--a:62deg;--x:64%;--y:10%;--l:18vh;--d:-13s"></i>
-    </div>
     <div class="atmos__motes" id="motes"></div>
+  </div>
+
+  <!-- editorial type, behind everything, anchoring the composition -->
+  <div class="editorial" aria-hidden="true"><span>Rayudu Group</span></div>
+
+  <!-- floating light batons -->
+  <div class="batons" id="batons" aria-hidden="true">
+    <i style="--a:42deg;--x:16%;--y:18%;--l:30vh;--w:9px;--d:0s;--z:1"></i>
+    <i style="--a:-44deg;--x:78%;--y:26%;--l:22vh;--w:7px;--d:-6s;--z:.6"></i>
+    <i style="--a:41deg;--x:68%;--y:72%;--l:26vh;--w:10px;--d:-11s;--z:1.3"></i>
+    <i style="--a:-43deg;--x:24%;--y:78%;--l:17vh;--w:6px;--d:-16s;--z:.45"></i>
   </div>
 
   <svg class="rings" id="rings" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
@@ -49,7 +55,7 @@
   <model-viewer
     id="viewer"
     src="assets/eagle.glb"
-    alt="A sculpted eagle with raised wings, finished in a gradient from amber and magenta to violet and cyan. Seven nodes on the sculpture reveal the businesses of the Rayudu Group ecosystem."
+    alt="A sculpted eagle with raised wings, finished in an iridescent gradient from magenta through violet to cyan, standing on a lit plinth. Seven nodes on the sculpture reveal the businesses of the Rayudu Group ecosystem."
     ar
     ar-modes="webxr scene-viewer quick-look"
     camera-controls
@@ -61,12 +67,15 @@
     poster="assets/poster.webp"
     shadow-intensity="2.4"
     shadow-softness="0.7"
-    exposure="0.72"
+    exposure="0.96"
     environment-image="assets/studio.hdr"
     interaction-prompt="none"
+    field-of-view="30deg"
+    min-field-of-view="30deg"
+    max-field-of-view="30deg"
     interpolation-decay="1"
-    min-camera-orbit="auto 18deg 40%"
-    max-camera-orbit="auto 104deg 180%"
+    min-camera-orbit="auto 18deg 18%"
+    max-camera-orbit="auto 112deg 180%"
     camera-orbit="0deg 76deg 100%">
     <button class="ar-btn" slot="ar-button">View in space</button>
     <div class="mv-error" slot="error">
@@ -83,7 +92,7 @@
 <div class="overlay" id="overlay">
 
   <header class="hud hud--tl">
-    <a class="wordmark" href="#" id="homeLink">Rayudu<sup>®</sup>Group</a>
+    <a class="wordmark" href="#" id="homeLink">Rayudu Group</a>
     <p class="hud__sub">Enterprise Ecosystem</p>
   </header>
 

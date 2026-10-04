@@ -35,7 +35,7 @@
   --slow:cubic-bezier(.16,.84,.34,1);
   --display:'Poppins','InterVar',-apple-system,BlinkMacSystemFont,sans-serif;
   --sans:'InterVar',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  --grain-opacity:.06;
+  --grain-opacity:.15;
 }
 
 *{box-sizing:border-box}
@@ -71,9 +71,10 @@ body.is-live .boot{opacity:0;pointer-events:none}
 .stage{
   position:fixed;inset:0;z-index:1;overflow:hidden;
   background:
-    radial-gradient(68vw 62vh at 50% 40%, color-mix(in srgb,var(--scene-accent) 46%,transparent), transparent 66%),
-    radial-gradient(120vw 110vh at 50% 48%, var(--scene-bg), #000 82%),
-    #000;
+    radial-gradient(46vw 44vh at 50% 42%, color-mix(in srgb,var(--scene-accent) 24%,transparent), transparent 70%),
+    radial-gradient(64vw 60vh at 50% 44%, #A81C1C 0%, rgba(151,24,24,.62) 34%, rgba(90,13,13,.3) 58%, transparent 76%),
+    radial-gradient(130vw 125vh at 50% 50%, #1A0404 30%, #0D0202 72%, #050101 100%),
+    #050101;
   opacity:0;transition:opacity 1.6s var(--ease);
 }
 body.is-live .stage{opacity:1}
@@ -89,11 +90,11 @@ model-viewer{
 .vignette{
   position:absolute;inset:0;z-index:3;pointer-events:none;
   background:
-    radial-gradient(92% 86% at 50% 48%,transparent 52%,rgba(0,0,0,.66) 100%),
-    linear-gradient(to bottom,rgba(0,0,0,.28),transparent 18%,transparent 68%,rgba(0,0,0,.62));
+    radial-gradient(88% 84% at 50% 46%,transparent 40%,rgba(26,4,4,.55) 74%,rgba(5,1,1,.92) 100%),
+    linear-gradient(to bottom,rgba(5,1,1,.4),transparent 16%,transparent 66%,rgba(5,1,1,.72));
 }
 .grain{
-  position:absolute;inset:-30%;z-index:4;pointer-events:none;opacity:var(--grain-opacity);
+  position:absolute;inset:-30%;z-index:4;pointer-events:none;opacity:var(--grain-opacity);mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
   animation:grainShift 7s steps(6) infinite;
 }
@@ -106,16 +107,25 @@ model-viewer{
 
 /* ---------- atmosphere ---------- */
 .atmos{position:absolute;inset:-6%;z-index:0;pointer-events:none;will-change:transform}
-.atmos__streaks i{
-  position:absolute;left:var(--x);top:var(--y);width:2px;height:var(--l);
-  transform:rotate(var(--a));transform-origin:50% 50%;border-radius:3px;filter:blur(2.5px);
-  background:linear-gradient(to bottom,transparent,color-mix(in srgb,var(--scene-line) 80%,#fff) 50%,transparent);
-  opacity:.2;animation:streakBreathe 17s var(--d) ease-in-out infinite;
+/* floating light batons — rounded emissive tubes, as in the reference */
+.batons{position:absolute;inset:-8%;z-index:0;pointer-events:none;will-change:transform}
+.batons i{
+  position:absolute;left:var(--x);top:var(--y);width:var(--w);height:var(--l);
+  border-radius:999px;transform:rotate(var(--a));transform-origin:50% 50%;
+  background:linear-gradient(to bottom,rgba(255,255,255,.12),#fff 16%,#fff 84%,rgba(255,255,255,.12));
+  box-shadow:
+    0 0 14px 2px rgba(255,255,255,.55),
+    0 0 46px 10px rgba(255,235,235,.3),
+    0 0 110px 34px rgba(255,120,100,.18);
+  opacity:.85;animation:batonFloat 19s var(--d) ease-in-out infinite;
 }
-@keyframes streakBreathe{0%,100%{opacity:.08}50%{opacity:.3}}
+@keyframes batonFloat{
+  0%,100%{translate:0 0;opacity:.6}
+  50%{translate:0 -26px;opacity:.95}
+}
 .atmos__motes i{
   position:absolute;left:var(--x);top:var(--y);width:2px;height:2px;border-radius:50%;
-  background:#fff;opacity:var(--o);scale:var(--s);box-shadow:0 0 8px rgba(255,255,255,.45);
+  background:var(--tint,#fff);opacity:var(--o);scale:var(--s);filter:blur(.3px);box-shadow:0 0 9px rgba(255,214,196,.5);
   animation:moteDrift var(--dur) var(--delay) linear infinite;
 }
 @keyframes moteDrift{
@@ -124,15 +134,29 @@ model-viewer{
   100%{transform:translate3d(var(--drift),-52px,0);opacity:0}
 }
 
+/* ---------- editorial background type ---------- */
+.editorial{
+  position:absolute;left:0;right:0;top:clamp(54px,9vh,116px);z-index:0;
+  pointer-events:none;text-align:center;overflow:hidden;
+  opacity:.9;transition:opacity 1.4s var(--ease);
+}
+.editorial span{
+  display:block;font-family:var(--display);font-weight:600;white-space:nowrap;
+  font-size:clamp(40px,9.6vw,172px);line-height:.82;letter-spacing:-.058em;
+  color:#080203;
+  text-shadow:0 1px 0 rgba(255,255,255,.035);
+}
+body[data-scene="opening"] .editorial{opacity:0}
+
 /* ---------- stamp rings ---------- */
 .rings{
   position:absolute;left:50%;top:46%;width:min(150vh,94vw);height:min(150vh,94vw);
   transform:translate(-50%,-50%);z-index:0;pointer-events:none;
 }
-.ring{stroke:rgba(245,245,242,.07);stroke-width:1;vector-effect:non-scaling-stroke}
+.ring{stroke:rgba(245,245,242,.05);stroke-width:1;vector-effect:non-scaling-stroke}
 .ring--2{stroke:rgba(245,245,242,.04)}
 #ringTicks{animation:tickPulse 12s ease-in-out infinite}
-.tick{stroke:rgba(245,245,242,.08);stroke-width:1;vector-effect:non-scaling-stroke}
+.tick{stroke:rgba(245,245,242,.06);stroke-width:1;vector-effect:non-scaling-stroke}
 .tick--major{stroke:rgba(245,245,242,.18)}
 @keyframes tickPulse{0%,100%{opacity:.5}50%{opacity:1}}
 #ringArcs{transition:opacity 1.2s var(--slow)}
@@ -232,8 +256,8 @@ model-viewer{
 .hotspot.is-active .hotspot__label{opacity:1;transform:translateX(0);color:#fff}
 .hotspot.is-active .hotspot__pulse{animation:hotPulse 3.2s var(--ease) infinite}
 @keyframes hotPulse{0%{opacity:.55;transform:scale(1)}70%{opacity:0;transform:scale(3.3)}100%{opacity:0;transform:scale(3.3)}}
-.hotspot.is-inactive{opacity:.24}
-.hotspot.is-inactive:hover{opacity:.75}
+.hotspot.is-inactive{opacity:0;pointer-events:none}
+.hotspot:not(.is-active):not(.is-inactive){opacity:0;pointer-events:none}
 
 /* ---------- UI layer ---------- */
 .overlay{position:fixed;inset:0;z-index:5;pointer-events:none}

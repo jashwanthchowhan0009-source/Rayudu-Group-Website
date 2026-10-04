@@ -67,6 +67,7 @@ assets/
                                 colour and its own ground disc
   studio.hdr                    warm key upper-left + cool bounce lower-right
   poster.webp  fonts/  vendor/  first paint, Poppins + Inter, model-viewer
+about.html  page.css          the About page, same studio, laid out to read
 ```
 
 ### Changing the experience
@@ -98,6 +99,14 @@ geometry.
 passed straight to model-viewer as `data-position` / `data-normal`. They are
 never screen coordinates, and they are authoritative — do not convert them.
 
+### The studio
+
+One crimson studio holds the whole site: a radial backdrop from #A81C1C at the
+centre, falling to burned burgundy and pitch wine at the corners, with dense
+film grain over it (overlay blend), floating emissive light batons at ~42°,
+drifting embers, and the words RAYUDU GROUP set massive in near-black behind
+the sculpture. The same field carries the About page.
+
 ### Colour
 
 Each scene owns a colour field: a `bg` that fills the frame and an `accent`
@@ -107,10 +116,10 @@ logistics, burgundy for energy, purple for media and wellness. Both are
 registered custom properties, so a scene change cross-fades instead of
 snapping, and the vignette keeps the edges black.
 
-The sculpture itself carries baked vertex colour: amber beak, coral and
-magenta body, violet shoulders, electric blue and cyan wing tips, on a dark
-graphite pedestal. It is multiplied by the lighting, so it still reads as a
-material rather than a flat neon fill.
+The sculpture carries baked vertex colour — coral and magenta through violet
+to electric blue and cyan at the wing tips, on a dark graphite pedestal — with
+scattered bright facets for glint. The material is half-metal at low roughness,
+so the key light and the batons read as highlights travelling over it.
 
 ### Standing on something
 
@@ -156,9 +165,10 @@ typography, navigation and content all remain.
 ## The rest of the site
 
 The menu lists Home, About, Our Brands, Careers, Gallery and Contact Us.
-Home and Contact Us move inside this experience; the other four link out to
-the existing rayudugroup.in pages until they are rebuilt in this language.
-Change the targets in `PAGES` in `src/config/scenes.js`.
+Home and Contact Us move inside the experience, About is `about.html` in the
+same language, and the remaining three link out to the existing
+rayudugroup.in pages until they are rebuilt. Change the targets in `PAGES`
+in `src/config/scenes.js`.
 
 ## Content
 

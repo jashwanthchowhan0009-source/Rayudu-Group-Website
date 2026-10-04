@@ -14,7 +14,7 @@ export class Environment {
     this.device = device;
     this.atmos = root.querySelector('#atmos');
     this.motes = root.querySelector('#motes');
-    this.streaks = root.querySelector('#streaks');
+    
     this.ringBase = root.querySelector('#ringBase');
     this.ringTicks = root.querySelector('#ringTicks');
     this.ringArcs = root.querySelector('#ringArcs');
@@ -22,10 +22,11 @@ export class Environment {
     this.activeArc = null;
 
     document.documentElement.style.setProperty('--grain-opacity', device.budget.grain);
+    this.batons = root.querySelector('#batons');
     this.buildRings();
     this.buildMotes();
-    [...this.streaks.children].forEach((el, i) => {
-      if (i >= device.budget.streaks) el.remove();
+    [...this.batons.children].forEach((el, i) => {
+      if (i >= device.budget.batons) el.remove();
     });
   }
 
@@ -78,6 +79,7 @@ export class Environment {
       el.style.setProperty('--dur', `${(16 + Math.random() * 22).toFixed(1)}s`);
       el.style.setProperty('--delay', `${(-Math.random() * 30).toFixed(1)}s`);
       el.style.setProperty('--drift', `${(Math.random() * 40 - 20).toFixed(1)}px`);
+      el.style.setProperty('--tint', Math.random() < 0.42 ? '#FFD9BC' : '#FFFFFF');
       el.dataset.depth = depth.toFixed(2);
       frag.appendChild(el);
     }
@@ -102,11 +104,13 @@ export class Environment {
     this.ringArcs.style.opacity = strength.toFixed(3);
   }
 
-  /** Subtle depth: the atmosphere lags behind pointer and scroll. */
+  /** Subtle depth: each layer lags behind pointer and scroll by its own amount. */
   parallax(px, py, progress) {
     const d = this.device.reduceMotion ? 0 : 1;
     this.atmos.style.transform =
       `translate3d(${(px * -14 * d).toFixed(2)}px, ${(py * -10 * d - progress * 24).toFixed(2)}px, 0)`;
+    this.batons.style.transform =
+      `translate3d(${(px * -34 * d).toFixed(2)}px, ${(py * -24 * d - progress * 46).toFixed(2)}px, 0)`;
     this.ringArcs.parentElement.style.transform =
       `translate3d(${(px * -6 * d).toFixed(2)}px, ${(py * -4 * d).toFixed(2)}px, 0) rotate(${(progress * 6).toFixed(2)}deg)`;
   }

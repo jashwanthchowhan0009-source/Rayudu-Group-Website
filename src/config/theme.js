@@ -34,20 +34,20 @@ export const TINT = {
 export const FRAME = 0.97;
 
 /** Scroll length per scene, in viewport heights. Longer = slower, heavier. */
-export const SCENE_LENGTH = 1.7;
+export const SCENE_LENGTH = 2.4;
 
 export const TIMING = {
   /** camera damping half-life, ms — higher is heavier */
-  cameraDamp: 430,
+  cameraDamp: 640,
   /** how much of a scene window is movement vs. hold (0–0.5 each side) */
-  holdIn: 0.26,
-  holdOut: 0.74,
+  holdIn: 0.30,
+  holdOut: 0.70,
   /** typography hands over inside the camera move: the outgoing block clears
    *  before the incoming one arrives, measured in scene units */
-  textOutStart: 0.20,
-  textOutEnd: 0.60,
-  textInStart: -0.72,
-  textInEnd: -0.24,
+  textOutStart: 0.08,
+  textOutEnd: 0.38,
+  textInStart: -0.52,
+  textInEnd: -0.12,
   pointerDecay: 1600
 };
 
@@ -55,7 +55,7 @@ export const BREAK = { mobile: 720, tablet: 1080 };
 
 /** Environment budget per capability tier. */
 export const TIER = {
-  high:   { motes: 28, streaks: 3, ticks: 72, grain: 0.055 },
-  medium: { motes: 16, streaks: 2, ticks: 48, grain: 0.045 },
-  low:    { motes: 0,  streaks: 1, ticks: 0,  grain: 0.03 }
+  high:   { motes: 38, batons: 4, ticks: 72, grain: 0.15 },
+  medium: { motes: 26, batons: 3, ticks: 48, grain: 0.13 },
+  low:    { motes: 0,  batons: 2, ticks: 0,  grain: 0.08 }
 };
