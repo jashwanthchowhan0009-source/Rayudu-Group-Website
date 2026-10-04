@@ -1,6 +1,6 @@
 import { clamp } from '../animation/interpolation.js';
 import { easeInOutCubic } from '../animation/easing.js';
-import { TIMING } from '../config/theme.js';
+import { TIMING, SCENE_LENGTH } from '../config/theme.js';
 
 /**
  * Turns the document scroll into a normalised 0 → 1 progress and resolves it
@@ -21,7 +21,7 @@ export class ScrollController {
 
   measure() {
     // one viewport per scene, plus a little tail so the last scene can settle
-    this.track.style.height = `${this.count * 100 + 20}svh`;
+    this.track.style.height = `${this.count * SCENE_LENGTH * 100 + 24}svh`;
     this.max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
   }
 

@@ -1,6 +1,6 @@
 import { CameraController } from './CameraController.js';
 import { clamp, lerp, smoothstep } from '../animation/interpolation.js';
-import { TIMING } from '../config/theme.js';
+import { TIMING, FRAME } from '../config/theme.js';
 
 const DEG = Math.PI / 180;
 
@@ -38,7 +38,7 @@ export class SceneManager {
       clamp(c.target[1] - (this.device.wide ? 0 : this.device.mobile ? 0.24 : 0.14), 0.26, 1.1),
       c.target[2] - Math.sin(th) * shift
     ];
-    return { theta: c.theta, phi: c.phi, radius: c.radius * fit, target };
+    return { theta: c.theta, phi: c.phi, radius: c.radius * fit * FRAME, target };
   }
 
   start() {
@@ -77,11 +77,11 @@ export class SceneManager {
 
     this.env.setArc(current.id, settle * 0.62);
     this.hotspots.setActive(settle > 0.35 ? (current.hotspot ? current.id : null) : null);
-    this.eagle.setExposure(lerp(0.5, 0.6, settle));
+    this.eagle.setExposure(lerp(0.66, 0.78, settle));
 
     if (s.current !== this.index) {
       this.index = s.current;
-      this.env.setAccent(current.accent, current.line);
+      this.env.setAccent(current.accent, current.line, current.bg);
       this.indicator.update(s.current, s.progress);
       this.nav.mark(s.current);
       document.body.dataset.scene = current.id;

@@ -19,7 +19,11 @@ const scroll = new ScrollController(root.getElementById('track'), SCENES.length)
 const jump = (i) => scroll.scrollToScene(i);
 
 const environment = new Environment(root, device);
-const typography = new SceneTypography(root.getElementById('scenes'), SCENES);
+const typography = new SceneTypography(
+  root.getElementById('scenes'),
+  root.getElementById('scenesFront'),
+  SCENES
+);
 const indicator = new SceneIndicator(root, SCENES, jump);
 const navigation = new Navigation(root, SCENES, jump);
 const hotspots = new Hotspots(viewer, SCENES, (id) => jump(SCENES.findIndex((s) => s.id === id)));

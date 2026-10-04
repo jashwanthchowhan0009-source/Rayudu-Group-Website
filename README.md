@@ -1,8 +1,10 @@
 # Rayudu Group — Enterprise Ecosystem
 
-One continuous 3D scene. Black space, a sculpted eagle lit by a warm key and a
-cool bounce, and ten scroll-driven scene states that carry the group's
-businesses. Scroll is the interaction; there are no sections.
+One continuous 3D scene. A sculpted eagle finished in an iridescent gradient,
+standing on a lit ground plane inside a colour field that changes with the
+story, and ten scroll-driven scene states that carry the group's businesses.
+Scroll is the interaction; there are no sections. The typography sits behind
+the sculpture, so the eagle crosses in front of the words.
 
 **Built for everyday life. Inspired by tomorrow.**
 
@@ -61,9 +63,10 @@ src/
     SceneIndicator.js           progress rail, counter, scroll cue
     Navigation.js               the index panel
 assets/
-  eagle.glb                     the sculpture (70k tris, matte PBR)
+  eagle.glb                     the sculpture (70k tris) with baked vertex
+                                colour and its own ground disc
   studio.hdr                    warm key upper-left + cool bounce lower-right
-  poster.webp  fonts/  vendor/  first paint, Playfair Display, model-viewer
+  poster.webp  fonts/  vendor/  first paint, Poppins + Inter, model-viewer
 ```
 
 ### Changing the experience
@@ -97,11 +100,24 @@ never screen coordinates, and they are authoritative — do not convert them.
 
 ### Colour
 
-Black is the environment, white is the structure, and one accent speaks at a
-time: blue for intelligence and technology, red and coral for logistics,
-burgundy for energy, purple for media and wellness, navy for depth. The accent
-is a registered custom property, so a scene change cross-fades the colour
-instead of snapping.
+Each scene owns a colour field: a `bg` that fills the frame and an `accent`
+that glows behind the sculpture and tints the arc, the hotspot ring and the
+small type — blue for intelligence and technology, red and coral for
+logistics, burgundy for energy, purple for media and wellness. Both are
+registered custom properties, so a scene change cross-fades instead of
+snapping, and the vignette keeps the edges black.
+
+The sculpture itself carries baked vertex colour: amber beak, coral and
+magenta body, violet shoulders, electric blue and cyan wing tips, on a dark
+graphite pedestal. It is multiplied by the lighting, so it still reads as a
+material rather than a flat neon fill.
+
+### Standing on something
+
+The model carries a ground disc at its base that takes model-viewer's cast
+shadow and fades out at the rim, so the eagle is grounded rather than
+floating. `FRAME` in `theme.js` pulls the framing back to compensate for the
+wider bounding box.
 
 ### Lighting
 
@@ -109,6 +125,14 @@ Image-based, from `assets/studio.hdr`: a warm coral/amber key from the upper
 left, a cool indigo bounce from the lower right, a faint neutral top light and
 an almost-black ambient. Regenerate the file rather than adding lights — the
 generator lives in the commit history of this change.
+
+### Type and layering
+
+Poppins for display, Inter for everything else. Scene blocks render *inside*
+the stage, underneath the model-viewer canvas, so the sculpture occludes them;
+a scene that needs clickable links (Connect) renders in the front layer
+instead. `shift` in each scene state decides how much of the block the
+sculpture is allowed to cross.
 
 ### Performance
 
@@ -123,10 +147,18 @@ generator lives in the commit history of this change.
 
 ### Accessibility
 
-Keyboard scrolling, focusable hotspots and rail, visible focus rings, an index
-panel that reaches every scene plus the contact details, `aria-live` on the
+Keyboard scrolling, focusable hotspots, rail and scene switcher, visible focus
+rings, a full-screen menu that reaches every page and scene plus the contact
+details, `aria-live` on the
 scene region, and a controlled fallback if the 3D asset fails: branding,
 typography, navigation and content all remain.
+
+## The rest of the site
+
+The menu lists Home, About, Our Brands, Careers, Gallery and Contact Us.
+Home and Contact Us move inside this experience; the other four link out to
+the existing rayudugroup.in pages until they are rebuilt in this language.
+Change the targets in `PAGES` in `src/config/scenes.js`.
 
 ## Content
 

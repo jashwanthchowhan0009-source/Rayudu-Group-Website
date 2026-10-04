@@ -29,19 +29,26 @@ export const TINT = {
   navy:    '#7C8AC8'
 };
 
+/** The model now carries its own ground disc, which widens the bounding box.
+ *  This pulls the framing back in so the sculpture keeps its presence. */
+export const FRAME = 0.97;
+
+/** Scroll length per scene, in viewport heights. Longer = slower, heavier. */
+export const SCENE_LENGTH = 1.7;
+
 export const TIMING = {
   /** camera damping half-life, ms — higher is heavier */
-  cameraDamp: 240,
+  cameraDamp: 430,
   /** how much of a scene window is movement vs. hold (0–0.5 each side) */
-  holdIn: 0.18,
-  holdOut: 0.82,
+  holdIn: 0.26,
+  holdOut: 0.74,
   /** typography hands over inside the camera move: the outgoing block clears
    *  before the incoming one arrives, measured in scene units */
-  textOutStart: 0.18,
-  textOutEnd: 0.52,
-  textInStart: -0.60,
-  textInEnd: -0.18,
-  pointerDecay: 1200
+  textOutStart: 0.20,
+  textOutEnd: 0.60,
+  textInStart: -0.72,
+  textInEnd: -0.24,
+  pointerDecay: 1600
 };
 
 export const BREAK = { mobile: 720, tablet: 1080 };

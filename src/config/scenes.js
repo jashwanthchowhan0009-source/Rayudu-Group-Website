@@ -4,14 +4,15 @@ import { COLOR, TINT } from './theme.js';
  * The whole experience is one scroll through ten declarative scene states.
  *
  * camera   theta/phi in degrees, radius as a fraction of the model-viewer
- *          framing radius, target in model space (metres).
- *          Sector targets are baked from the hotspot coordinates (60% of the
- *          way from the hero target to the node), so the camera always lands
- *          on the real geometry.
- * shift    lateral push of the look-at point, so the eagle sits clear of
- *          the typography. Positive moves the sculpture left on screen.
- * hotspot  the node that becomes ACTIVE while this scene holds.
- * accent   drives the arc, the hotspot ring and the small type.
+ *          framing radius, target in model space (metres). Sector targets are
+ *          baked 60% of the way from the hero target to the hotspot, so the
+ *          camera always lands on real geometry.
+ * shift    small lateral push of the look-at point. Kept tight on purpose:
+ *          the typography sits BEHIND the sculpture, so the two overlap at
+ *          the edges without the sculpture swallowing the words.
+ * bg       the colour field this scene lives in.
+ * accent   drives the glow, the arc, the hotspot ring and the small type.
+ * front    render the type in front of the sculpture (needs clickable links).
  *
  * Copy is Rayudu Group's own, from rayudugroup.in.
  */
@@ -19,23 +20,25 @@ export const SCENES = [
   {
     id: 'opening',
     label: 'Opening',
+    hero: true,
     camera: { theta: 0, phi: 76, radius: 1.0, target: [0, 0.62, 0] },
     shift: 0,
-    accent: COLOR.navy, line: TINT.navy,
-    align: 'left', wide: true,
-    eyebrow: 'Rayudu Group',
-    title: 'Built for <em>everyday life,</em><br>inspired by <em>tomorrow.</em>',
-    body: 'A growing ecosystem of businesses, built around real life.'
+    bg: '#15091A', accent: COLOR.purple, line: TINT.rose,
+    align: 'left',
+    eyebrow: 'Enterprise ecosystem',
+    title: 'Rayudu<sup>®</sup>&#8203;Group',
+    body: 'Built for everyday life.<br>Inspired by tomorrow.',
+    note: 'A growing ecosystem of businesses, built around real life.'
   },
   {
     id: 'ecosystem',
     label: 'The Group',
     camera: { theta: -26, phi: 68, radius: 1.06, target: [0, 0.66, 0] },
-    shift: 0.36,
-    accent: COLOR.white, line: TINT.white,
+    shift: 0.30,
+    bg: '#0D0C1C', accent: COLOR.navy, line: TINT.navy,
     align: 'right',
     eyebrow: 'Business with purpose',
-    title: 'One group.<br><em>Many possibilities.</em>',
+    title: 'One group<br>many possibilities',
     body: 'An Indian conglomerate spanning twelve forward-looking enterprises — from agronomy to digital infrastructure. Built for scale, guided by ethics.',
     meta: ['Founded 20 June 2023', 'Anantapur · India', 'Sheridan · USA']
   },
@@ -45,10 +48,10 @@ export const SCENES = [
     hotspot: 'hotspot-2',
     camera: { theta: 0, phi: 71, radius: 0.74, target: [-0.002, 0.730, 0.478] },
     shift: 0.34,
-    accent: COLOR.blue, line: TINT.blue,
+    bg: '#07121F', accent: COLOR.blue, line: TINT.blue,
     align: 'right',
     eyebrow: 'Business intelligence',
-    title: 'RONOHUB',
+    title: 'Ronohub',
     body: 'Advanced business intelligence platforms that let organisations gather, analyse and transform large volumes of structured and unstructured data — powering informed decisions and risk assessment across diverse industries.',
     meta: ['Decision architecture', 'Risk assessment', 'Predictive analytics']
   },
@@ -57,11 +60,11 @@ export const SCENES = [
     label: 'Ogin Logistics',
     hotspot: 'hotspot-3',
     camera: { theta: -32.01, phi: 67.6, radius: 0.76, target: [-0.352, 0.968, 0.160] },
-    shift: -0.40,
-    accent: COLOR.red, line: TINT.coral,
+    shift: -0.38,
+    bg: '#2A0A0B', accent: COLOR.red, line: TINT.coral,
     align: 'left',
     eyebrow: 'Supply chain & logistics',
-    title: 'OGIN<br>LOGISTICS',
+    title: 'Ogin<br>Logistics',
     body: 'A trusted partner for logistics and supply chain solutions — comprehensive services that carry freight, materials and components through the complexities of modern trade, on schedule.',
     meta: ['Multimodal freight', 'Mining & automotive supply chain', 'Container management'],
     note: 'For the fast moving world…'
@@ -71,11 +74,11 @@ export const SCENES = [
     label: 'Rayudu Tech',
     hotspot: 'hotspot-4',
     camera: { theta: 74.18, phi: 84, radius: 0.86, target: [0.081, 0.693, 0.284] },
-    shift: 0.38,
-    accent: COLOR.blue, line: TINT.azure,
-    align: 'right', size: 'sm',
+    shift: 0.36,
+    bg: '#081425', accent: COLOR.blue, line: TINT.azure,
+    align: 'right',
     eyebrow: 'Technology & cybersecurity',
-    title: 'RAYUDU<br>TECH',
+    title: 'Rayudu<br>Tech',
     body: 'Expert IT services and software development, built for the evolving needs of modern business — enterprise systems, digital architecture and the security that holds them together.',
     meta: ['Enterprise software', 'Digital architecture', 'Cybersecurity', 'IT staffing']
   },
@@ -84,11 +87,11 @@ export const SCENES = [
     label: 'Blacore',
     hotspot: 'hotspot-7',
     camera: { theta: 49.27, phi: 81.65, radius: 0.78, target: [0.045, 0.400, 0.233] },
-    shift: 0.44,
-    accent: COLOR.burgundy, line: TINT.burgundy,
+    shift: 0.52,
+    bg: '#250A08', accent: COLOR.burgundy, line: TINT.burgundy,
     align: 'right',
     eyebrow: 'Energy & commodities',
-    title: 'BLACORE',
+    title: 'Blacore',
     body: 'Coal import and trading across India — supplying every major grade from all major ports to meet diverse industrial needs.',
     meta: ['Coal import & trading', 'All major Indian ports', 'Nationwide distribution']
   },
@@ -97,11 +100,11 @@ export const SCENES = [
     label: 'Global Network',
     hotspot: 'hotspot-9',
     camera: { theta: 38, phi: 56, radius: 0.80, target: [0.404, 1.100, 0.073] },
-    shift: -0.42,
-    accent: COLOR.white, line: TINT.white,
+    shift: -0.38,
+    bg: '#0A0F1E', accent: COLOR.white, line: TINT.white,
     align: 'left',
     eyebrow: 'India + USA',
-    title: 'GLOBAL<br>NETWORK',
+    title: 'Global<br>Network',
     body: 'A strategic presence connecting Indian operations with a broader North American footprint.',
     meta: ['6/5/989 Srinagar Colony, Anantapur, Andhra Pradesh 515002', '30 N Gould St Suite R, Sheridan, Wyoming 82801']
   },
@@ -110,11 +113,11 @@ export const SCENES = [
     label: 'One Flag',
     hotspot: 'hotspot-10',
     camera: { theta: 163, phi: 62, radius: 0.88, target: [-0.028, 0.660, 0.049] },
-    shift: 0.36,
-    accent: COLOR.purple, line: TINT.purple,
+    shift: 0.34,
+    bg: '#1A0A1E', accent: COLOR.purple, line: TINT.purple,
     align: 'right', size: 'sm',
     eyebrow: 'Film, music & IP',
-    title: 'MEDIA &<br>ENTERTAINMENT',
+    title: 'Media &<br>Entertainment',
     note: 'One Flag Entertainment',
     body: 'Full-scale production and distribution across film, music and digital content — bringing creative visions to life and delivering them to audiences worldwide.',
     meta: ['End-to-end film production', 'Theatrical & digital distribution', 'Structured film financing']
@@ -124,11 +127,11 @@ export const SCENES = [
     label: 'Dazzlon',
     hotspot: 'hotspot-11',
     camera: { theta: 1.1, phi: 84, radius: 0.72, target: [0, 0.579, 0.269] },
-    shift: -0.34,
-    accent: COLOR.purple, line: TINT.rose,
+    shift: -0.32,
+    bg: '#200B1C', accent: COLOR.purple, line: TINT.rose,
     align: 'left',
     eyebrow: 'Consumer wellness',
-    title: 'DAZZLON',
+    title: 'Dazzlon',
     body: 'A blend of natural and scientifically crafted skincare, designed to nourish and revitalise skin while promoting a luxurious self-care experience.',
     meta: ['Science-backed skincare', 'Personal care', 'Sustainable lifestyle products']
   },
@@ -136,11 +139,11 @@ export const SCENES = [
     id: 'connect',
     label: 'Connect',
     camera: { theta: 12, phi: 74, radius: 1.12, target: [0, 0.64, 0] },
-    shift: 0.34,
-    accent: COLOR.red, line: TINT.red,
-    align: 'right', last: true,
+    shift: 0.32,
+    bg: '#260B0C', accent: COLOR.red, line: TINT.red,
+    align: 'right', last: true, front: true,
     eyebrow: 'Get in touch',
-    title: 'Let’s build<br><em>what’s next.</em>',
+    title: 'Let’s build<br>what’s next',
     body: 'Whether you want to explore our businesses, start a partnership, or be part of the future we are building — we would be delighted to connect with you.',
     links: [
       { label: 'hello@rayudugroup.in', href: 'mailto:hello@rayudugroup.in' },
@@ -148,6 +151,20 @@ export const SCENES = [
     ],
     meta: ['Anantapur, Andhra Pradesh — India', 'Sheridan, Wyoming — USA']
   }
+];
+
+/**
+ * The rest of the site. Home and Contact live inside this experience;
+ * the others are the existing rayudugroup.in pages until they are rebuilt
+ * in this language.
+ */
+export const PAGES = [
+  { label: 'Home',        scene: 'opening' },
+  { label: 'About',       href: 'https://www.rayudugroup.in/about' },
+  { label: 'Our Brands',  href: 'https://www.rayudugroup.in/our-brands' },
+  { label: 'Careers',     href: 'https://www.rayudugroup.in/careers' },
+  { label: 'Gallery',     href: 'https://www.rayudugroup.in/gallery' },
+  { label: 'Contact Us',  scene: 'connect' }
 ];
 
 /**
@@ -181,5 +198,6 @@ export const ARCS = {
   media:   [408, 190, 250],
   dazzlon: [196, 150, 214],
   ecosystem: [408, -46, 16],
-  connect: [300, 196, 262]
+  connect: [300, 196, 262],
+  opening: [408, 92, 150]
 };

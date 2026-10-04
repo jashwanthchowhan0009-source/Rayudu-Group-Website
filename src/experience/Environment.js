@@ -84,12 +84,14 @@ export class Environment {
     this.motes.appendChild(frag);
   }
 
-  /** Accent for the current scene, applied to arcs/ticks/wash. */
-  setAccent(color, line) {
+  /** Colour field for the current scene: accent, hairline tint and ground. */
+  setAccent(color, line, bg) {
     this.atmos.style.setProperty('--accent', color);
     this.atmos.style.setProperty('--line', line);
-    document.documentElement.style.setProperty('--scene-accent', color);
-    document.documentElement.style.setProperty('--scene-line', line);
+    const root = document.documentElement.style;
+    root.setProperty('--scene-accent', color);
+    root.setProperty('--scene-line', line);
+    if (bg) root.setProperty('--scene-bg', bg);
   }
 
   setArc(id, strength) {

@@ -10,7 +10,8 @@
 <meta property="og:description" content="Built for everyday life. Inspired by tomorrow.">
 <meta property="og:image" content="assets/poster.webp">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preload" as="font" type="font/woff2" href="assets/fonts/playfair-display-latin-400-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-latin-600-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin-wght-normal.woff2" crossorigin>
 <link rel="preload" as="image" href="assets/poster.webp">
 <link rel="stylesheet" href="styles.css">
 <script type="module" src="assets/vendor/model-viewer-4.3.1.min.js"></script>
@@ -19,7 +20,7 @@
 
 <!-- ── loading reveal ──────────────────────────────────────────────── -->
 <div class="boot" id="boot">
-  <p class="boot__mark">Rayudu Group</p>
+  <p class="boot__mark">Rayudu<sup>®</sup>Group</p>
   <div class="boot__line"><span id="bootBar"></span></div>
 </div>
 
@@ -29,9 +30,9 @@
   <div class="atmos" id="atmos">
     <div class="atmos__wash"></div>
     <div class="atmos__streaks" id="streaks">
-      <i style="--a:-24deg;--x:14%;--y:22%;--l:30vh;--d:0s"></i>
-      <i style="--a:-24deg;--x:78%;--y:66%;--l:22vh;--d:-7s"></i>
-      <i style="--a:62deg;--x:62%;--y:12%;--l:16vh;--d:-13s"></i>
+      <i style="--a:-24deg;--x:12%;--y:20%;--l:34vh;--d:0s"></i>
+      <i style="--a:-24deg;--x:80%;--y:64%;--l:26vh;--d:-7s"></i>
+      <i style="--a:62deg;--x:64%;--y:10%;--l:18vh;--d:-13s"></i>
     </div>
     <div class="atmos__motes" id="motes"></div>
   </div>
@@ -42,10 +43,13 @@
     <g id="ringArcs" fill="none"></g>
   </svg>
 
+  <!-- typography sits BEHIND the sculpture, so the eagle crosses in front of it -->
+  <main class="scenes" id="scenes" aria-live="polite"></main>
+
   <model-viewer
     id="viewer"
     src="assets/eagle.glb"
-    alt="A sculpted eagle with raised wings. Seven nodes on the sculpture reveal the businesses of the Rayudu Group ecosystem."
+    alt="A sculpted eagle with raised wings, finished in a gradient from amber and magenta to violet and cyan. Seven nodes on the sculpture reveal the businesses of the Rayudu Group ecosystem."
     ar
     ar-modes="webxr scene-viewer quick-look"
     camera-controls
@@ -55,9 +59,9 @@
     touch-action="pan-y"
     tone-mapping="neutral"
     poster="assets/poster.webp"
-    shadow-intensity="2"
-    shadow-softness="1"
-    exposure="0.56"
+    shadow-intensity="2.4"
+    shadow-softness="0.7"
+    exposure="0.72"
     environment-image="assets/studio.hdr"
     interaction-prompt="none"
     interpolation-decay="1"
@@ -67,55 +71,76 @@
     <button class="ar-btn" slot="ar-button">View in space</button>
     <div class="mv-error" slot="error">
       <p>The sculpture could not be loaded.</p>
-      <p class="mv-error__sub">The ecosystem is still here — open the index to read it.</p>
+      <p class="mv-error__sub">The ecosystem is still here — open the menu to read it.</p>
     </div>
   </model-viewer>
 
-  <div class="grain" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
 </div>
 
 <!-- ── UI LAYER ───────────────────────────────────────────────────── -->
 <div class="overlay" id="overlay">
 
   <header class="hud hud--tl">
-    <a class="wordmark" href="#top" id="homeLink">Rayudu Group</a>
+    <a class="wordmark" href="#" id="homeLink">Rayudu<sup>®</sup>Group</a>
     <p class="hud__sub">Enterprise Ecosystem</p>
   </header>
 
   <div class="hud hud--tr">
-    <button class="link" id="indexBtn" aria-expanded="false" aria-controls="indexPanel">Index</button>
+    <button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
   </div>
 
-  <main class="scenes" id="scenes" aria-live="polite"></main>
+  <!-- scenes that need clickable content render in front of the sculpture -->
+  <div class="scenes scenes--front" id="scenesFront"></div>
 
   <nav class="rail" id="rail" aria-label="Scene progress"></nav>
 
-  <div class="hud hud--bl">
-    <p class="counter"><span id="counterNow">01</span><span class="counter__sep">/</span><span id="counterAll">10</span></p>
-    <p class="counter__label" id="counterLabel">Opening</p>
-  </div>
-
-  <div class="hud hud--br">
-    <p class="cue" id="cue"><span class="cue__line"></span>Scroll to explore</p>
-  </div>
-
-  <aside class="index" id="indexPanel" hidden>
-    <div class="index__col">
-      <p class="eyebrow">Ecosystem</p>
-      <ul class="index__list" id="indexList"></ul>
+  <footer class="bar">
+    <div class="bar__left">
+      <p class="counter"><span id="counterNow">01</span><span class="counter__sep">/</span><span id="counterAll">10</span></p>
+      <p class="counter__label" id="counterLabel">Opening</p>
     </div>
-    <div class="index__col">
-      <p class="eyebrow">Contact</p>
-      <p><a href="mailto:hello@rayudugroup.in">hello@rayudugroup.in</a></p>
-      <p><a href="tel:+919985722289">+91 99857 22289</a></p>
-      <p class="eyebrow index__gap">India</p>
-      <p>6/5/989, Srinagar Colony,<br>Anantapur, Andhra Pradesh 515002</p>
-      <p class="eyebrow index__gap">USA</p>
-      <p>30 N Gould St, Suite R,<br>Sheridan, Wyoming 82801</p>
-      <p class="index__legal">Rayudu Empire Private Limited — inspiring to growth…</p>
+
+    <div class="bar__switch">
+      <button class="switch__arrow" id="prevBtn" aria-label="Previous scene">&#8249;</button>
+      <span class="switch__pill" id="switchPill">Opening</span>
+      <button class="switch__arrow" id="nextBtn" aria-label="Next scene">&#8250;</button>
+      <span class="switch__hint">Scroll or switch</span>
     </div>
-  </aside>
+
+    <div class="bar__right">
+      <a class="bar__link" href="mailto:hello@rayudugroup.in">Get in touch <span>&#8599;</span></a>
+    </div>
+  </footer>
+
+  <!-- ── full-screen menu ── -->
+  <div class="menu" id="menu" hidden>
+    <div class="menu__inner">
+      <div class="menu__pages">
+        <p class="eyebrow">Site</p>
+        <ul class="menu__list" id="menuPages"></ul>
+      </div>
+      <div class="menu__side">
+        <div>
+          <p class="eyebrow">Ecosystem</p>
+          <ul class="menu__scenes" id="menuScenes"></ul>
+        </div>
+        <div class="menu__contact">
+          <p class="eyebrow">Contact</p>
+          <p><a href="mailto:hello@rayudugroup.in">hello@rayudugroup.in</a></p>
+          <p><a href="tel:+919985722289">+91 99857 22289</a></p>
+          <p class="eyebrow menu__gap">India</p>
+          <p>6/5/989, Srinagar Colony,<br>Anantapur, Andhra Pradesh 515002</p>
+          <p class="eyebrow menu__gap">USA</p>
+          <p>30 N Gould St, Suite R,<br>Sheridan, Wyoming 82801</p>
+          <p class="menu__legal">Rayudu Empire Private Limited — inspiring to growth…</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 
