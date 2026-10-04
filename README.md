@@ -1,26 +1,30 @@
 # Rayudu Group — Enterprise Ecosystem
 
-A single-screen, interactive brand experience for Rayudu Group.
-Black space, one sculpted eagle, one studio light, seven business nodes.
+One continuous 3D scene. Black space, a sculpted eagle lit by a warm key and a
+cool bounce, and ten scroll-driven scene states that carry the group's
+businesses. Scroll is the interaction; there are no sections.
 
 **Built for everyday life. Inspired by tomorrow.**
 
 ## What it is
 
-A static site. No build step, no framework, no backend, no tracking.
-The eagle is a real 3D model rendered by `<model-viewer>`; each of the seven
-hotspots is a **native model-viewer hotspot** anchored to a point on the
-actual mesh (face, wings, claws, back, breast), so they stay attached to the
-geometry through every camera move.
+A static site — no build step, no framework, no backend, no tracking.
+`<model-viewer>` keeps its native rendering pipeline; everything around it is
+plain ES modules and CSS.
 
-Selecting a node moves the camera to that part of the sculpture with a
-cinematic easing (~0.8s to settle), lights the matching arc in the concentric
-graphic system, dims the other nodes and opens a small information panel.
+Scrolling never just moves the page: it advances a normalised progress value
+that interpolates camera, typography, lighting, hotspot state and the
+environment from one declarative scene state into the next.
+
+```
+USER INPUT ↓ scroll / pointer / touch
+SCENE STATE ↓ camera + eagle + environment + typography
+NEXT SCENE
+```
 
 ## Running it
 
-Any static file server; the page must be served over HTTP (not `file://`)
-so the model and environment can be fetched.
+Serve over HTTP (not `file://`) so the model and environment can be fetched.
 
 ```bash
 npx http-server -p 8080 -c-1
@@ -28,44 +32,107 @@ npx http-server -p 8080 -c-1
 open http://localhost:8080
 ```
 
-Deploy by uploading the repository as-is (GitHub Pages, Netlify, S3, nginx).
-Enable gzip/brotli — `assets/eagle.glb` and `assets/studio.hdr` compress well.
+Deploy the repository as-is (GitHub Pages, Netlify, S3, nginx) and enable
+gzip/brotli — `assets/eagle.glb` and `assets/studio.hdr` compress well.
 
-## Structure
+## Architecture
 
 ```
-index.html                 markup + model-viewer configuration + HUD
-styles.css                 the whole design system
-src/sectors.js             ← single source of truth: the seven sectors,
-                             their copy, accents, hotspot coordinates,
-                             camera views and arcs
-src/app.js                 hotspot/arc/panel wiring, camera moves, parallax
-assets/eagle.glb           the sculpture (70k tris, matte PBR material)
-assets/studio.hdr          environment: one key light, top-right-front
-assets/poster.webp         first paint, shown until the model is ready
-assets/vendor/             @google/model-viewer 4.3.1 (Apache-2.0), vendored
+index.html                      shell: 3D world, UI layer, scroll track
+styles.css                      the design system in one place
+src/
+  config/
+    theme.js                    colour, timing, breakpoints, device budgets
+    scenes.js                   ← the whole experience, declared
+  animation/
+    easing.js  interpolation.js lerp / lerpAngle / damp / smoothstep
+  interaction/
+    ScrollController.js         scrollY → normalised progress → scene A→B, t
+    PointerController.js        parallax + decaying user camera influence
+    DeviceController.js         one capability read: tier, motion, pointer
+  experience/
+    SceneManager.js             the single frame loop
+    CameraController.js         damped camera, writes only when it changed
+    Eagle.js                    model-viewer wrapper (load, exposure, shadow)
+    Hotspots.js                 native hotspots, 4 states
+    Environment.js              stamp rings, light motes, streaks, parallax
+  ui/
+    SceneTypography.js          per-scene headline blocks
+    SceneIndicator.js           progress rail, counter, scroll cue
+    Navigation.js               the index panel
+assets/
+  eagle.glb                     the sculpture (70k tris, matte PBR)
+  studio.hdr                    warm key upper-left + cool bounce lower-right
+  poster.webp  fonts/  vendor/  first paint, Playfair Display, model-viewer
 ```
 
-### Changing content
+### Changing the experience
 
-Everything editable lives in `src/sectors.js` — names, sector lines, body
-copy, the `[ Explore ]` detail lists, accent colours, hotspot positions,
-per-node camera framing (`view`, `zoom`) and arc geometry.
-`HERO` at the bottom of that file defines the opening shot.
+Almost everything lives in `src/config/scenes.js`: the scene order, the copy,
+the accent colours, the camera state for each scene and the hotspot
+coordinates. Add a scene to the array and the scroll length, the rail, the
+index and the counter all follow.
 
-### Hotspot coordinates
+```js
+{
+  id: 'ronohub',
+  hotspot: 'hotspot-2',                 // node that becomes ACTIVE here
+  camera: { theta, phi, radius, target },
+  shift: 0.34,                          // push the sculpture clear of the type
+  accent: COLOR.blue, line: TINT.blue,
+  eyebrow, title, body, meta
+}
+```
 
-`position` and `normal` are in the model's own coordinate space and were
-sampled from the mesh itself. They are passed straight to model-viewer as
-`data-position` / `data-normal`. Do not replace them with screen coordinates.
+`camera.radius` is a fraction of model-viewer's own framing distance, so every
+viewport frames the sculpture correctly. `camera.target` is baked 60% of the
+way from the hero target to the hotspot, so the camera always lands on real
+geometry.
 
-## Notes
+### Hotspots
 
-- Lighting is image-based: a single soft key from top-right-front with an
-  almost black ambient fill, so the eagle emerges from darkness. Tune it by
-  regenerating `assets/studio.hdr`, not by adding lights.
-- The model never auto-rotates. Mouse parallax is capped at ~1.7° and stops
-  as soon as the visitor takes control of the camera.
-- Reduced-motion, keyboard focus, touch and AR entry are all handled.
-- Contact: hello@rayudugroup.in · +91 99857 22289
-- Operations: Anantapur, Andhra Pradesh (India) · Sheridan, Wyoming (USA)
+`position` / `normal` in `scenes.js` were sampled from the mesh itself and are
+passed straight to model-viewer as `data-position` / `data-normal`. They are
+never screen coordinates, and they are authoritative — do not convert them.
+
+### Colour
+
+Black is the environment, white is the structure, and one accent speaks at a
+time: blue for intelligence and technology, red and coral for logistics,
+burgundy for energy, purple for media and wellness, navy for depth. The accent
+is a registered custom property, so a scene change cross-fades the colour
+instead of snapping.
+
+### Lighting
+
+Image-based, from `assets/studio.hdr`: a warm coral/amber key from the upper
+left, a cool indigo bounce from the lower right, a faint neutral top light and
+an almost-black ambient. Regenerate the file rather than adding lights — the
+generator lives in the commit history of this change.
+
+### Performance
+
+- One `requestAnimationFrame` loop. The camera writes to model-viewer only
+  when a value actually moved, so a settled scene costs no renders.
+- Motes, streaks, grain and rings are GPU transforms and CSS animations; the
+  only per-frame JS is interpolation.
+- `DeviceController` picks a budget (`high` / `medium` / `low`) from viewport,
+  cores, memory and `prefers-reduced-motion`, and the environment is built to
+  that budget. Reduced motion drops the atmosphere entirely and makes camera
+  moves near-instant.
+
+### Accessibility
+
+Keyboard scrolling, focusable hotspots and rail, visible focus rings, an index
+panel that reaches every scene plus the contact details, `aria-live` on the
+scene region, and a controlled fallback if the 3D asset fails: branding,
+typography, navigation and content all remain.
+
+## Content
+
+Copy, addresses and brand descriptions are Rayudu Group's own, from
+rayudugroup.in. Nothing here is invented.
+
+- hello@rayudugroup.in · +91 99857 22289
+- India — 6/5/989, Srinagar Colony, Anantapur, Andhra Pradesh 515002
+- USA — 30 N Gould St, Suite R, Sheridan, Wyoming 82801
