@@ -17,6 +17,7 @@ export class SceneTypography {
         `scene--${scene.align}`,
         scene.hero ? 'scene--hero' : '',
         scene.size ? `scene--${scene.size}` : '',
+        scene.glass ? 'scene--glass' : '',
         scene.last ? 'scene--last' : ''
       ].filter(Boolean).join(' ');
       el.id = `scene-${scene.id}`;
@@ -36,9 +37,30 @@ export class SceneTypography {
             `<p class="scene__body">${scene.body}</p>`,
             scene.meta ? `<ul class="scene__meta">${scene.meta.map((m) => `<li>${m}</li>`).join('')}</ul>` : '',
             scene.links ? `<p class="scene__links">${scene.links
-              .map((l) => `<a href="${l.href}">${l.label}</a>`).join('')}</p>` : ''
+              .map((l) => `<a href="${l.href}">${l.label}</a>`).join('')}</p>` : '',
+            scene.form ? `<form class="gform" novalidate>
+              <div class="gform__row">
+                <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+                <input type="tel" name="phone" placeholder="Phone number" autocomplete="tel">
+              </div>
+              <input type="email" name="email" placeholder="Email address" autocomplete="email" required>
+              <textarea name="message" placeholder="Your message"></textarea>
+              <button type="submit">Send it</button>
+              <p class="gform__note" data-status></p>
+            </form>` : ''
           ].join('');
 
+      const form = el.querySelector('.gform');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const d = new FormData(form);
+          const body = encodeURIComponent(
+            `${d.get('message') || ''}\n\n— ${d.get('name') || ''}\n${d.get('phone') || ''}\n${d.get('email') || ''}`);
+          form.querySelector('[data-status]').textContent = 'Opening your mail app…';
+          location.href = `mailto:hello@rayudugroup.in?subject=${encodeURIComponent('Enquiry from ' + (d.get('name') || 'the website'))}&body=${body}`;
+        });
+      }
       (scene.front ? front : back).appendChild(el);
       return { el, scene, shown: -1 };
     });

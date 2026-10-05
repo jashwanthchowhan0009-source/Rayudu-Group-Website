@@ -44,6 +44,7 @@ export const SCENES = [
   },
   {
     id: 'ronohub',
+    glass: true,
     label: 'Ronohub',
     hotspot: 'hotspot-2',
     camera: { theta: 0, phi: 74, radius: 0.34, target: [-0.004, 0.803, 0.796] },
@@ -57,6 +58,7 @@ export const SCENES = [
   },
   {
     id: 'ogin',
+    glass: true,
     label: 'Ogin Logistics',
     hotspot: 'hotspot-3',
     camera: { theta: -32.01, phi: 67.6, radius: 0.37, target: [-0.586, 1.200, 0.267] },
@@ -71,6 +73,7 @@ export const SCENES = [
   },
   {
     id: 'tech',
+    glass: true,
     label: 'Rayudu Tech',
     hotspot: 'hotspot-4',
     camera: { theta: 74.18, phi: 84, radius: 0.62, target: [0.135, 0.742, 0.473] },
@@ -84,6 +87,7 @@ export const SCENES = [
   },
   {
     id: 'blacore',
+    glass: true,
     label: 'Blacore',
     hotspot: 'hotspot-7',
     camera: { theta: 49.27, phi: 81.65, radius: 0.36, target: [0.076, 0.060, 0.388] },
@@ -97,6 +101,7 @@ export const SCENES = [
   },
   {
     id: 'global',
+    glass: true,
     label: 'Global Network',
     hotspot: 'hotspot-9',
     camera: { theta: 38, phi: 58, radius: 0.45, target: [0.674, 1.422, 0.122] },
@@ -110,6 +115,7 @@ export const SCENES = [
   },
   {
     id: 'media',
+    glass: true,
     label: 'One Flag',
     hotspot: 'hotspot-10',
     camera: { theta: 163, phi: 64, radius: 0.52, target: [-0.047, 0.687, 0.081] },
@@ -124,6 +130,7 @@ export const SCENES = [
   },
   {
     id: 'dazzlon',
+    glass: true,
     label: 'Dazzlon',
     hotspot: 'hotspot-11',
     camera: { theta: 1.1, phi: 88, radius: 0.33, target: [-0.001, 0.552, 0.448] },
@@ -145,11 +152,7 @@ export const SCENES = [
     eyebrow: 'Get in touch',
     title: 'Let’s build<br>what’s next',
     body: 'Whether you want to explore our businesses, start a partnership, or be part of the future we are building — we would be delighted to connect with you.',
-    links: [
-      { label: 'hello@rayudugroup.in', href: 'mailto:hello@rayudugroup.in' },
-      { label: '+91 99857 22289', href: 'tel:+919985722289' }
-    ],
-    meta: ['Anantapur, Andhra Pradesh — India', 'Sheridan, Wyoming — USA']
+    form: true
   }
 ];
 
@@ -162,9 +165,9 @@ export const PAGES = [
   { label: 'Home',        scene: 'opening' },
   { label: 'About',       href: 'about.html' },
   { label: 'Our Brands',  href: 'https://www.rayudugroup.in/our-brands' },
-  { label: 'Careers',     href: 'https://www.rayudugroup.in/careers' },
+  { label: 'Careers',     href: 'careers.html' },
   { label: 'Gallery',     href: 'https://www.rayudugroup.in/gallery' },
-  { label: 'Contact Us',  scene: 'connect' }
+  { label: 'Contact Us',  href: 'contact.html' }
 ];
 
 /**

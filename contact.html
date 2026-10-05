@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact — Rayudu Group</title>
+<meta name="description" content="A conversation. A new possibility. Reach Rayudu Group in Anantapur, India and Sheridan, Wyoming.">
+<meta name="theme-color" content="#5C0D0D">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-latin-600-normal.woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="page.css">
+</head>
+<body class="page">
+
+<div class="page__field" aria-hidden="true">
+  <div class="batons">
+    <i style="--a:44deg;--x:10%;--y:16%;--l:26vh;--w:8px;--d:0s"></i>
+    <i style="--a:-44deg;--x:86%;--y:28%;--l:22vh;--w:7px;--d:-7s"></i>
+    <i style="--a:40deg;--x:74%;--y:78%;--l:20vh;--w:8px;--d:-13s"></i>
+  </div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<header class="page__top">
+  <a class="wordmark" href="index.html">Rayudu Group</a>
+  <nav class="page__nav">
+    <a href="index.html">Experience</a>
+    <a href="about.html">About</a>
+    <a href="https://www.rayudugroup.in/our-brands" target="_blank" rel="noopener">Our Brands</a>
+    <a href="careers.html">Careers</a>
+    <a href="contact.html" class="is-on">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" data-reveal>
+    <p class="eyebrow">Get in touch</p>
+    <h1 class="hero__title">A conversation.<br>A new possibility.</h1>
+    <p class="hero__lead">Let's explore what we can create together. Whether you are a client, partner or
+      investor, we would love to connect — for institutional enquiries, enterprise partnership or
+      official communication.</p>
+  </section>
+
+  <section class="contact">
+    <form class="gform glasscard" id="contactForm" data-reveal novalidate>
+      <p class="eyebrow">Initiate a conversation</p>
+      <div class="gform__row">
+        <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+        <input type="tel" name="phone" placeholder="Phone number" autocomplete="tel">
+      </div>
+      <input type="email" name="email" placeholder="Email address" autocomplete="email" required>
+      <textarea name="message" placeholder="Your message"></textarea>
+      <button type="submit">Submit</button>
+      <p class="gform__note" data-status></p>
+    </form>
+    <aside class="contact__side" data-reveal>
+      <p class="eyebrow">Direct</p>
+      <p class="contact__big"><a href="mailto:hello@rayudugroup.in">hello@rayudugroup.in</a></p>
+      <p class="contact__big"><a href="tel:+919985722289">+91 99857 22289</a></p>
+      <p><a class="wa" href="https://api.whatsapp.com/send?phone=919985722289" target="_blank" rel="noopener">Message us on WhatsApp</a></p>
+      <p class="eyebrow" style="margin-top:28px">India</p>
+      <p>6/5/989, Srinagar Colony,<br>Anantapur, Andhra Pradesh, 515002.</p>
+      <p class="eyebrow" style="margin-top:22px">USA</p>
+      <p>30 N Gould St Suite R,<br>Sheridan, Wyoming, 82801.</p>
+    </aside>
+  </section>
+</main>
+
+<footer class="sitefoot">
+  <div>
+    <p class="eyebrow">Rayudu Group</p>
+    <p><strong>Rayudu Empire Private Limited</strong><br>Inspiring to growth…</p>
+  </div>
+  <div>
+    <p class="eyebrow">India</p>
+    <p>6/5/989, Srinagar Colony,<br>Anantapur, Andhra Pradesh,<br>India, 515002.</p>
+  </div>
+  <div>
+    <p class="eyebrow">USA</p>
+    <p>30 N Gould St Suite R,<br>Sheridan, Wyoming, 82801.</p>
+  </div>
+  <div>
+    <p class="eyebrow">Contact us</p>
+    <p><a class="wa" href="https://api.whatsapp.com/send?phone=919985722289" target="_blank" rel="noopener">&#9742; +91 99857 22289</a></p>
+    <p><a href="mailto:hello@rayudugroup.in">hello@rayudugroup.in</a></p>
+    <p><a href="mailto:rayudugroup07@gmail.com">rayudugroup07@gmail.com</a></p>
+  </div>
+  <div class="sitefoot__legal">
+    <span>© 2026 Rayudu Group</span>
+    <span>Privacy Policy · Terms of Use · Cookie Policy</span>
+  </div>
+</footer>
+
+<script type="module">
+  const items=document.querySelectorAll('[data-reveal]');
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window){
+    const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('is-in');io.unobserve(x.target);}}),{threshold:.1});
+    items.forEach(el=>io.observe(el));
+  } else items.forEach(el=>el.classList.add('is-in'));
+  const f=document.getElementById('contactForm');
+  f.addEventListener('submit',ev=>{
+    ev.preventDefault();
+    const d=new FormData(f);
+    const body=encodeURIComponent((d.get('message')||'')+'\n\n— '+(d.get('name')||'')+'\n'+(d.get('phone')||'')+'\n'+(d.get('email')||''));
+    f.querySelector('[data-status]').textContent='Opening your mail app…';
+    location.href='mailto:hello@rayudugroup.in?subject='+encodeURIComponent('Enquiry from '+(d.get('name')||'the website'))+'&body='+body;
+  });
+</script>
+</body></html>

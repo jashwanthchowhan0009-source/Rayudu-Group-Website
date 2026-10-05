@@ -33,7 +33,11 @@ const pointer = new PointerController(viewer, device);
 // ── loading reveal: black → atmosphere → model → light → interface ──────
 const boot = root.getElementById('boot');
 const bootBar = root.getElementById('bootBar');
-eagle.onProgress((p) => { bootBar.style.transform = `scaleX(${p})`; });
+const bootPct = root.getElementById('bootPct');
+eagle.onProgress((p) => {
+  bootBar.style.transform = `scaleX(${p})`;
+  bootPct.textContent = `${Math.round(p * 100)}%`;
+});
 
 const reveal = () => {
   document.body.classList.remove('is-booting');
@@ -51,6 +55,21 @@ eagle.ready.then((ok) => {
     environment, typography, indicator, navigation, device
   }).start();
 });
+
+// ── sound: one click anywhere starts it, the button keeps control ───────
+const audio = root.getElementById('track-audio');
+const soundBtn = root.getElementById('soundBtn');
+const soundLabel = root.getElementById('soundLabel');
+const setSound = (on) => {
+  if (on) { audio.volume = 0.42; audio.play().catch(() => {}); }
+  else audio.pause();
+  soundBtn.classList.toggle('is-on', on);
+  soundBtn.setAttribute('aria-pressed', String(on));
+  soundLabel.textContent = on ? 'Sound on' : 'Sound off';
+  document.body.classList.add('sound-ready');
+};
+soundBtn.addEventListener('click', (e) => { e.stopPropagation(); setSound(audio.paused); });
+addEventListener('pointerdown', () => { if (audio.paused && !document.body.classList.contains('sound-ready')) setSound(true); }, { once: true });
 
 // start at the top on reload so the opening shot is always the first thing seen
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';

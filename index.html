@@ -22,6 +22,8 @@
 <div class="boot" id="boot">
   <p class="boot__mark">Rayudu Group</p>
   <div class="boot__line"><span id="bootBar"></span></div>
+  <p class="boot__pct" id="bootPct">0%</p>
+  <p class="boot__say">Assembling the ecosystem</p>
 </div>
 
 <!-- ── 3D WORLD ───────────────────────────────────────────────────── -->
@@ -37,10 +39,14 @@
 
   <!-- floating light batons -->
   <div class="batons" id="batons" aria-hidden="true">
-    <i style="--a:42deg;--x:16%;--y:18%;--l:30vh;--w:9px;--d:0s;--z:1"></i>
-    <i style="--a:-44deg;--x:78%;--y:26%;--l:22vh;--w:7px;--d:-6s;--z:.6"></i>
-    <i style="--a:41deg;--x:68%;--y:72%;--l:26vh;--w:10px;--d:-11s;--z:1.3"></i>
-    <i style="--a:-43deg;--x:24%;--y:78%;--l:17vh;--w:6px;--d:-16s;--z:.45"></i>
+    <i style="--a:62deg;--x:7%;--y:54%;--l:26vh;--w:9px;--d:0s"></i>
+    <i style="--a:44deg;--x:15%;--y:24%;--l:30vh;--w:10px;--d:-4s"></i>
+    <i style="--a:22deg;--x:34%;--y:8%;--l:20vh;--w:7px;--d:-8s"></i>
+    <i style="--a:-20deg;--x:64%;--y:7%;--l:22vh;--w:8px;--d:-12s"></i>
+    <i style="--a:-44deg;--x:83%;--y:24%;--l:28vh;--w:10px;--d:-16s"></i>
+    <i style="--a:-62deg;--x:92%;--y:56%;--l:24vh;--w:8px;--d:-20s"></i>
+    <i style="--a:-40deg;--x:74%;--y:80%;--l:16vh;--w:6px;--d:-24s"></i>
+    <i style="--a:40deg;--x:22%;--y:82%;--l:16vh;--w:6px;--d:-28s"></i>
   </div>
 
   <svg class="rings" id="rings" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
@@ -107,6 +113,11 @@
 
   <nav class="rail" id="rail" aria-label="Scene progress"></nav>
 
+  <button class="sound" id="soundBtn" aria-pressed="false" aria-label="Toggle sound">
+    <span class="sound__bars"><i></i><i></i><i></i><i></i></span><span id="soundLabel">Sound off</span>
+  </button>
+  <p class="sound__hint" id="soundHint">Click anywhere to enable the sound</p>
+
   <footer class="bar">
     <div class="bar__left">
       <p class="counter"><span id="counterNow">01</span><span class="counter__sep">/</span><span id="counterAll">10</span></p>
@@ -124,6 +135,31 @@
       <a class="bar__link" href="mailto:hello@rayudugroup.in">Get in touch <span>&#8599;</span></a>
     </div>
   </footer>
+
+<footer class="sitefoot sitefoot--float">
+  <div>
+    <p class="eyebrow">Rayudu Group</p>
+    <p><strong>Rayudu Empire Private Limited</strong><br>Inspiring to growth…</p>
+  </div>
+  <div>
+    <p class="eyebrow">India</p>
+    <p>6/5/989, Srinagar Colony,<br>Anantapur, Andhra Pradesh,<br>India, 515002.</p>
+  </div>
+  <div>
+    <p class="eyebrow">USA</p>
+    <p>30 N Gould St Suite R,<br>Sheridan, Wyoming, 82801.</p>
+  </div>
+  <div>
+    <p class="eyebrow">Contact us</p>
+    <p><a class="wa" href="https://api.whatsapp.com/send?phone=919985722289" target="_blank" rel="noopener">&#9742; +91 99857 22289</a></p>
+    <p><a href="mailto:hello@rayudugroup.in">hello@rayudugroup.in</a></p>
+    <p><a href="mailto:rayudugroup07@gmail.com">rayudugroup07@gmail.com</a></p>
+  </div>
+  <div class="sitefoot__legal">
+    <span>© 2026 Rayudu Group</span>
+    <span>Privacy Policy · Terms of Use · Cookie Policy</span>
+  </div>
+</footer>
 
   <!-- ── full-screen menu ── -->
   <div class="menu" id="menu" hidden>
@@ -151,6 +187,7 @@
     </div>
   </div>
 
+  <audio id="track-audio" src="assets/smoothjazzforeagle.mp3" loop preload="none"></audio>
 </div>
 
 <!-- scroll track: gives the document its height, nothing else -->
