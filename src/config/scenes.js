@@ -166,7 +166,6 @@ export const PAGES = [
   { label: 'About',       href: 'about.html' },
   { label: 'Our Brands',  href: 'brands.html' },
   { label: 'Careers',     href: 'careers.html' },
-  { label: 'Gallery',     href: 'https://www.rayudugroup.in/gallery' },
   { label: 'Contact Us',  href: 'contact.html' }
 ];
 

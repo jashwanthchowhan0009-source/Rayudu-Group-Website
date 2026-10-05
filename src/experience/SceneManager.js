@@ -89,6 +89,8 @@ export class SceneManager {
       this.indicator.update(s.current, s.progress);
     }
 
+    document.documentElement.style.setProperty('--foot', s.footer.toFixed(4));
+
     this.sideTimer += dt;
     if (this.sideTimer > 140) {
       this.sideTimer = 0;

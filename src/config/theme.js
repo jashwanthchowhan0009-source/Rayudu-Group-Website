@@ -34,11 +34,14 @@ export const TINT = {
 export const FRAME = 0.97;
 
 /** Scroll length per scene, in viewport heights. Longer = slower, heavier. */
-export const SCENE_LENGTH = 3.6;
+export const SCENE_LENGTH = 4.6;
+
+/** Extra scroll after the last scene that pulls the footer up. */
+export const FOOTER_ZONE = 1.0;
 
 export const TIMING = {
   /** camera damping half-life, ms — higher is heavier */
-  cameraDamp: 900,
+  cameraDamp: 1150,
   /** how much of a scene window is movement vs. hold (0–0.5 each side) */
   holdIn: 0.34,
   holdOut: 0.66,

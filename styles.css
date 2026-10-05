@@ -174,7 +174,7 @@ body[data-scene="opening"] .editorial{opacity:0}
 .scenes{position:absolute;inset:0;z-index:6;pointer-events:none}
 .scenes--front{position:absolute;inset:0;z-index:1;pointer-events:none}
 .scene{
-  position:absolute;top:50%;translate:0 -50%;width:min(540px,44vw);
+  position:absolute;top:50%;translate:0 -50%;width:min(520px,42vw);
   opacity:0;visibility:hidden;will-change:transform,opacity;pointer-events:none;
 }
 .scene a{pointer-events:auto}
@@ -211,9 +211,8 @@ body[data-scene="opening"] .editorial{opacity:0}
   border:1px solid rgba(255,255,255,.14);
   box-shadow:0 26px 80px rgba(20,1,1,.5),inset 0 1px 0 rgba(255,255,255,.18);
   backdrop-filter:blur(20px) saturate(1.1);-webkit-backdrop-filter:blur(20px) saturate(1.1);
-  rotate:-1.4deg;transition:rotate 1.4s var(--slow);
+  rotate:0deg;
 }
-.scene--glass.scene--left{rotate:1.4deg}
 
 /* opening shot: the mark runs across the top, the claim sits low left */
 .scene--hero{
@@ -317,7 +316,12 @@ body[data-scene="opening"] .editorial{opacity:0}
 .hud{position:absolute;margin:0;opacity:0;transition:opacity 1.2s .3s var(--ease)}
 body.is-live .hud{opacity:1}
 .hud--tl{top:var(--pad);left:var(--pad)}
-.hud--tr{top:var(--pad);right:var(--pad);z-index:40}
+.hud--tr{top:var(--pad);right:var(--pad);z-index:40;display:flex;align-items:center;gap:clamp(14px,1.8vw,28px)}
+.topnav{display:flex;gap:clamp(14px,1.6vw,26px)}
+.topnav a{font-size:9px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--mute);
+  padding-bottom:3px;border-bottom:1px solid transparent;transition:color .35s var(--ease),border-color .35s var(--ease)}
+.topnav a:hover{color:#fff;border-bottom-color:var(--hair)}
+@media (max-width:1080px){.topnav{display:none}}
 .wordmark{display:block;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:-.02em;color:var(--white)}
 .wordmark sup{font-size:.4em;top:-.9em}
 .hud__sub{margin:5px 0 0;font-size:8.5px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--mute)}
@@ -426,17 +430,24 @@ body.is-live .bar{opacity:1}
 body.is-fallback .ar-btn,body.is-fallback .hotspot{display:none}
 body.is-fallback .rings{opacity:.7}
 
-/* footer strip, revealed on the closing scene */
+/* the footer is a place you arrive at: the scene lifts away and it fills the view */
 .sitefoot--float{
-  position:absolute;left:0;right:0;bottom:0;z-index:8;
-  opacity:0;transform:translateY(16px);pointer-events:none;
-  transition:opacity 1s var(--ease),transform 1s var(--ease);
-  padding-bottom:calc(14px + env(safe-area-inset-bottom));
+  position:fixed;left:0;right:0;bottom:0;z-index:14;min-height:82svh;
+  align-content:center;gap:clamp(26px,3vw,56px);
+  padding:clamp(48px,7vh,96px) var(--pad) calc(36px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,#2A0606 0%,#1A0303 42%,#0B0101 100%);
+  border-top:1px solid rgba(255,255,255,.14);
+  transform:translate3d(0,calc((1 - var(--foot,0)) * 100%),0);
+  transition:none;will-change:transform;
 }
-body[data-scene="connect"] .sitefoot--float{opacity:1;transform:none;pointer-events:auto}
-body[data-scene="connect"] .bar,body[data-scene="connect"] .sound{opacity:0;pointer-events:none}
-.sitefoot--float .sitefoot__legal{display:none}
-@media (max-width:720px){.sitefoot--float{display:none}}
+.sitefoot--float p{font-size:clamp(14px,1.15vw,17px);line-height:1.75;color:rgba(245,245,242,.74)}
+.sitefoot--float .eyebrow{font-size:10px;letter-spacing:.34em;color:#FF8A72;margin-bottom:16px}
+.sitefoot--float .sitefoot__legal{font-size:10px;padding-top:26px;margin-top:10px}
+.stage,.overlay .bar,.overlay .rail,.overlay .sound,.scenes--front{
+  transform:translate3d(0,calc(var(--foot,0) * -42vh),0);
+}
+.overlay .bar,.overlay .rail,.overlay .sound{opacity:calc(1 - var(--foot,0) * 2.2)}
+@media (max-width:720px){.sitefoot--float{min-height:88svh;gap:22px}}
 
 /* ---------- sound ---------- */
 .sound{
